@@ -10,17 +10,37 @@ const RegistrationForm: React.FC = () => {
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [error, setError] = useState<string | null>(null);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     if (!formData.disclaimer) {
       alert('Please accept the disclaimer to continue!');
       return;
     }
-    setShowConfirmation(true);
-    setTimeout(() => {
-      setShowConfirmation(false);
-      setFormData({ name: '', rollNo: '', branch: '', disclaimer: false });
-    }, 5000);
+    try {
+      const response = await fetch('http://localhost:4000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.rollNo, // using rollNo as email/ID for now
+          otherField: formData.branch
+        })
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || 'Registration failed');
+        return;
+      }
+      setShowConfirmation(true);
+      setTimeout(() => {
+        setShowConfirmation(false);
+        setFormData({ name: '', rollNo: '', branch: '', disclaimer: false });
+      }, 5000);
+    } catch (err) {
+      setError('Could not connect to server');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -54,6 +74,9 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <div className="max-w-lg mx-auto px-4 mb-20">
+      {error && (
+        <div className="mb-4 p-3 bg-red-700 text-white rounded-xl text-center animate-pulse">{error}</div>
+      )}
       {/* Add custom animation for checkbox */}
       <style jsx>{`
         @keyframes scale-in {
