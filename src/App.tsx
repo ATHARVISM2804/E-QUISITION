@@ -3,7 +3,8 @@ import Preloader from './components/Preloader';
 import FloatingParticles from './components/FloatingParticles';
 import Timeline from './components/Timeline';
 import RegistrationForm from './components/RegistrationForm';
-import DataTable from './components/DataTable';
+import ProtectedDataRoute from './components/ProtectedDataRoute';
+import { AuthProvider } from './components/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/animations.css';
 
@@ -23,12 +24,13 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/e-quisition-data"
-          element={<DataTable />}
-        />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route
+            path="/e-quisition-data"
+            element={<ProtectedDataRoute />}
+          />
         <Route
           path="*"
           element={
@@ -103,6 +105,7 @@ function App() {
         />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 

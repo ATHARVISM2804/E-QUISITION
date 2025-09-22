@@ -19,7 +19,7 @@ const RegistrationForm: React.FC = () => {
       return;
     }
     try {
-      const response = await fetch('https://e-quisition.onrender.com/register', {
+      const response = await fetch('https://e-quisition.vercel.app/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -30,7 +30,7 @@ const RegistrationForm: React.FC = () => {
       });
       if (!response.ok) {
         const data = await response.json();
-        setError(data.error || 'Registration failed');
+        setError(data.message || 'Registration failed');
         return;
       }
       setShowConfirmation(true);

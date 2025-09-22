@@ -1,44 +1,66 @@
 import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Replace with your deployed Apps Script Web App URL
-const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbxxdaJ8vht3o8hmv_TgUUvNQw1ySoq8b-ohPY8-jDj6wd8oxQqnBV9MoYar85EYxhR7Lw/exec";
+// ✅ Replace with your MongoDB URI (use env var in production!)
+const MONGO_URI = "mongodb+srv://atharvgolait_db_user:fPfiZMA5pGFRc6Mk@cluster0.zmk4wlz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-// API route to fetch Google Sheet data
-app.get("/api/sheet-data", async (req, res) => {
+// Middleware
+app.use(cors("https://e-quisition.onrender.com"));
+app.use(express.json()); // Parse JSON body
+
+// MongoDB connection
+mongoose
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
+
+// Schema & Model
+const FormSchema = new mongoose.Schema(
+  {
+    name: String,
+    rollNo: String,
+    branch: String,
+  },
+  { timestamps: true }
+);
+
+const FormEntry = mongoose.model("FormEntry", FormSchema);
+
+// ➡️ Route to handle form submission (POST)
+app.post("/submit", async (req, res) => {
   try {
-    const response = await fetch(GOOGLE_SHEET_URL); // native fetch
-    if (!response.ok) {
-      throw new Error(`Google Script error: ${response.statusText}`);
+    const { name, rollNo, branch } = req.body;
+
+    if (!name || !rollNo || !branch) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
-    const data = await response.json();
+    const entry = new FormEntry({ name, rollNo, branch });
+    await entry.save();
 
-    // Optional: format the data into objects (first row = headers)
-    const [headers, ...rows] = data;
-    const formatted = rows.map(row =>
-      headers.reduce((obj, header, i) => {
-        obj[header] = row[i] || "";
-        return obj;
-      }, {})
-    );
-
-    res.json({
-      success: true,
-      data: formatted,
-    });
+    res.json({ success: true, message: "Form submitted successfully!" });
   } catch (err) {
-    console.error("Error fetching sheet:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching data from Google Sheet",
-    });
+    console.error("❌ Error saving form:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
+// ➡️ Route to fetch all submissions (GET)
+app.get("/data", async (req, res) => {
+  try {
+    const entries = await FormEntry.find().sort({ createdAt: -1 });
+    res.json({ success: true, data: entries });
+  } catch (err) {
+    console.error("❌ Error fetching data:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`✅ Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
