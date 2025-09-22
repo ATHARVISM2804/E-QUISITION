@@ -24,8 +24,8 @@ const RegistrationForm: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
-          email: formData.rollNo, // using rollNo as email/ID for now
-          otherField: formData.branch
+          rollNo: formData.rollNo,
+          branch: formData.branch
         })
       });
       if (!response.ok) {

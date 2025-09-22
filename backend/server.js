@@ -1,30 +1,44 @@
-// Simple Express server for registration backend
-const express = require('express');
-const cors = require('cors');
+import express from "express";
+
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors(["https://e-quisition.vercel.app/",'http://localhost:5173']));
-app.use(express.json());
+// ✅ Replace with your deployed Apps Script Web App URL
+const GOOGLE_SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbxxdaJ8vht3o8hmv_TgUUvNQw1ySoq8b-ohPY8-jDj6wd8oxQqnBV9MoYar85EYxhR7Lw/exec";
 
-// In-memory storage for registered users
-let registrations = [];
+// API route to fetch Google Sheet data
+app.get("/api/sheet-data", async (req, res) => {
+  try {
+    const response = await fetch(GOOGLE_SHEET_URL); // native fetch
+    if (!response.ok) {
+      throw new Error(`Google Script error: ${response.statusText}`);
+    }
 
-// POST /register - Add a new registration
-app.post('/register', (req, res) => {
-  const { name, email, otherField } = req.body;
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Missing required fields' });
+    const data = await response.json();
+
+    // Optional: format the data into objects (first row = headers)
+    const [headers, ...rows] = data;
+    const formatted = rows.map(row =>
+      headers.reduce((obj, header, i) => {
+        obj[header] = row[i] || "";
+        return obj;
+      }, {})
+    );
+
+    res.json({
+      success: true,
+      data: formatted,
+    });
+  } catch (err) {
+    console.error("Error fetching sheet:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching data from Google Sheet",
+    });
   }
-  registrations.push({ name, email, otherField });
-  res.status(201).json({ message: 'Registration successful' });
-});
-
-// GET /e-quisition-data - Get all registrations
-app.get('/e-quisition-data', (req, res) => {
-  res.json(registrations);
 });
 
 app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
+  console.log(`✅ Backend running on http://localhost:${PORT}`);
 });
