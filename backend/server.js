@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 4000;
 
-app.use(cors());
+app.use(cors(["https://e-quisition.vercel.app/",'http://localhost:5173']));
 app.use(express.json());
 
 // In-memory storage for registered users
