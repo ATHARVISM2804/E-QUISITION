@@ -8,8 +8,17 @@ const PORT = process.env.PORT || 5000;
 // ✅ Replace with your MongoDB URI (use env var in production!)
 const MONGO_URI = "mongodb+srv://atharvgolait_db_user:fPfiZMA5pGFRc6Mk@cluster0.zmk4wlz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://e-quisition.vercel.app"
+];
+
+
 // Middleware
-app.use(cors("https://e-quisition.onrender.com"));
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 app.use(express.json()); // Parse JSON body
 
 // MongoDB connection

@@ -18,7 +18,8 @@ const DataTable: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://e-quisition.vercel.app/data')
+    fetch('https://e-quisition.onrender.com/data')
+    // fetch('http://localhost:5000/data')
       .then(res => res.json())
       .then(result => {
         if (result.success && Array.isArray(result.data)) {

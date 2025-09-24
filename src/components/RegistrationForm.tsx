@@ -19,7 +19,8 @@ const RegistrationForm: React.FC = () => {
       return;
     }
     try {
-      const response = await fetch('https://e-quisition.vercel.app/submit', {
+      // const response = await fetch('http://localhost:5000/submit', {
+      const response = await fetch('https://e-quisition.onrender.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
