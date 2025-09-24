@@ -101,6 +101,8 @@ const DataTable: React.FC = () => {
                     <th className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide">Name</th>
                     <th className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide">Roll No</th>
                     <th className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide">Branch</th>
+                    <th className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide">Phone Number</th>
+                    <th className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide">Domain</th>
                     <th className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide">Registered At</th>
                   </tr>
                 </thead>

@@ -33,6 +33,8 @@ const FormSchema = new mongoose.Schema(
     name: String,
     rollNo: String,
     branch: String,
+    phoneNumber: String,
+    domain: String
   },
   { timestamps: true }
 );
@@ -42,13 +44,13 @@ const FormEntry = mongoose.model("FormEntry", FormSchema);
 // ➡️ Route to handle form submission (POST)
 app.post("/submit", async (req, res) => {
   try {
-    const { name, rollNo, branch } = req.body;
+    const { name, rollNo, branch,phoneNumber,domain } = req.body;
 
-    if (!name || !rollNo || !branch) {
+    if (!name || !rollNo || !branch || !phoneNumber || !domain) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
-    const entry = new FormEntry({ name, rollNo, branch });
+    const entry = new FormEntry({ name, rollNo, branch, phoneNumber, domain });
     await entry.save();
 
     res.json({ success: true, message: "Form submitted successfully!" });

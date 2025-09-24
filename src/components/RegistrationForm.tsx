@@ -6,6 +6,8 @@ const RegistrationForm: React.FC = () => {
     name: '',
     rollNo: '',
     branch: '',
+    phone: '',
+    domain: '',
     disclaimer: false
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -26,7 +28,9 @@ const RegistrationForm: React.FC = () => {
         body: JSON.stringify({
           name: formData.name,
           rollNo: formData.rollNo,
-          branch: formData.branch
+          branch: formData.branch,
+          phone: formData.phone,
+          domain: formData.domain
         })
       });
       if (!response.ok) {
@@ -37,7 +41,7 @@ const RegistrationForm: React.FC = () => {
       setShowConfirmation(true);
       setTimeout(() => {
         setShowConfirmation(false);
-        setFormData({ name: '', rollNo: '', branch: '', disclaimer: false });
+        setFormData({ name: '', rollNo: '', branch: '', phone: '', domain: '', disclaimer: false });
       }, 5000);
     } catch (err) {
       setError('Could not connect to server');
@@ -165,15 +169,68 @@ const RegistrationForm: React.FC = () => {
                   className="w-full px-6 py-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-400/20 backdrop-blur-sm appearance-none cursor-pointer"
                 >
                   <option value="">Select your branch</option>
-                  <option value="CSE">Computer Science Engineering</option>
-                  <option value="ECE">Electronics & Communication</option>
-                  <option value="EEE">Electrical & Electronics</option>
+                  <option value="CSE">Computer Sciences and Engineering</option>
                   <option value="ME">Mechanical Engineering</option>
-                  <option value="CE">Civil Engineering</option>
                   <option value="CHE">Chemical Engineering</option>
-                  <option value="MSC">Master of Science</option>
-                  <option value="MBA">Master of Business Administration</option>
-                  <option value="OTHER">Other</option>
+                  <option value="ECE">Electronics</option>
+                  <option value="CE">Civil</option>
+                  <option value="MSC">Material Science</option>
+                  <option value="CSE_DUAL">CSE dual</option>
+                  <option value="ECE_DUAL">Ece dual</option>
+                  <option value="ARCH">Architecture</option>
+                  <option value="EPHY">Engineering Physics</option>
+                  <option value="MATH_COMP">Mathematics and Computing Engineering</option>
+                </select>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/10 to-purple-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                {/* Custom dropdown arrow */}
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="block text-gray-300 font-semibold mb-3 text-sm tracking-wide">
+                <Zap className="w-4 h-4 inline mr-2 text-yellow-400" />
+                Phone Number
+              </label>
+              <div className="relative">
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  pattern="[0-9]{10}"
+                  className="w-full px-6 py-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-400/20 backdrop-blur-sm"
+                  placeholder="Enter your phone number"
+                />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/10 to-purple-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="block text-gray-300 font-semibold mb-3 text-sm tracking-wide">
+                <Rocket className="w-4 h-4 inline mr-2 text-green-400" />
+                Domain
+              </label>
+              <div className="relative">
+                <select
+                  name="domain"
+                  value={formData.domain}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-6 py-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-400/20 backdrop-blur-sm appearance-none cursor-pointer"
+                >
+                  <option value="">Select your domain</option>
+                  <option value="CORPORATE_PUBLIC_RELATION">CORPORATE PUBLIC RELATION</option>
+                  <option value="FINANCE">FINANCE</option>
+                  <option value="PUBLIC_RELATION">PUBLIC RELATION</option>
+                  <option value="WEB_DEV">WEB DEV</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="INNOVATION_AND_TECHNICAL_PROJECTS">INNOVATION AND TECHNICAL PROJECTS</option>
                 </select>
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/10 to-purple-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 {/* Custom dropdown arrow */}
