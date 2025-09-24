@@ -98,6 +98,7 @@ function App() {
                 {/* Footer */}
                 <footer className="text-center py-8 text-gray-500">
                   <p className="text-sm">Made with ⚡ by E-Cell Nith</p>
+                  <p className="text-xs mt-2">©2025 ECELL NIT HAMIRPUR. All Rights Reserved.</p>
                 </footer>
               </div>
             </div>
