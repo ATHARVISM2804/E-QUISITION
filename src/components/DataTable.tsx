@@ -7,6 +7,8 @@ interface Registration {
   name: string;
   rollNo: string;
   branch: string;
+  phoneNumber: string;
+  domain: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -113,6 +115,8 @@ const DataTable: React.FC = () => {
                       <td className="py-4 px-6 text-gray-300">{row.name}</td>
                       <td className="py-4 px-6 text-gray-300">{row.rollNo}</td>
                       <td className="py-4 px-6 text-gray-300">{row.branch}</td>
+                      <td className="py-4 px-6 text-gray-300">{row.phoneNumber}</td>
+                      <td className="py-4 px-6 text-gray-300">{row.domain}</td>
                       <td className="py-4 px-6 text-gray-300">
                         {new Date(row.createdAt).toLocaleDateString()}
                       </td>

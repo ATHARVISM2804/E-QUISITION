@@ -29,7 +29,7 @@ const RegistrationForm: React.FC = () => {
           name: formData.name,
           rollNo: formData.rollNo,
           branch: formData.branch,
-          phone: formData.phone,
+          phoneNumber: formData.phone,
           domain: formData.domain
         })
       });
