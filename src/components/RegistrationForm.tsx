@@ -71,6 +71,15 @@ const RegistrationForm: React.FC = () => {
               <Zap className="w-6 h-6 text-cyan-400 animate-pulse" />
               <Rocket className="w-6 h-6 text-purple-400 animate-bounce" />
             </div>
+            {/* WhatsApp group button */}
+            <a
+              href="https://chat.whatsapp.com/GviAc21wRupFreoSQT04fn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-8 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg transition-all duration-300 animate-pulse"
+            >
+              Join WhatsApp Group
+            </a>
           </div>
         </div>
       </div>
